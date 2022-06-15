@@ -108,6 +108,7 @@ inline auto ChangesManager<T>::Redo(val valueNow) -> val
 template<typename T>
 inline void ChangesManager<T>::AddPrevValue(val valueNow)
 {
+	for (auto& value : nextValues) if (value) delete value;
 	nextValues.clear();
 	AddPrev(valueNow);
 }
