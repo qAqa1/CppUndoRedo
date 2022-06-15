@@ -26,7 +26,6 @@ private:
 	val DropLast(collection& data);
 	void AddWithLimit(collection& data, val value);
 public:
-
 	/// <summary>
 	/// Вернуть состояние объекта к предыдущему
 	/// </summary>
@@ -49,7 +48,7 @@ public:
 private:
 	void AddNext(val nextValue);
 	void AddPrev(val prevValue);
-
+	void Destroy();
 public:
 	/// <summary>
 	/// Очистить историю изменений
@@ -60,8 +59,7 @@ public:
 template<typename T>
 ChangesManager<T>::~ChangesManager()
 {
-	for (auto& value : previusValues) if (value) delete value;
-	for (auto& value : nextValues) if (value) delete value;
+	Destroy();
 }
 
 template<typename T>
@@ -127,8 +125,16 @@ inline void ChangesManager<T>::AddPrev(val prevValue)
 }
 
 template<typename T>
+inline void ChangesManager<T>::Destroy()
+{
+	for (auto& value : previusValues) if (value) delete value;
+	for (auto& value : nextValues) if (value) delete value;
+}
+
+template<typename T>
 inline void ChangesManager<T>::Clear()
 {
+	Destroy();
 	nextValues.clear();
 	previusValues.clear();
 }
